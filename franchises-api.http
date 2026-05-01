@@ -1,1 +1,28 @@
 GET http://localhost:8081
+
+## Franchises API
+
+### List all franchises
+GET http://localhost:8081/api/franchises
+
+### Create a new franchise
+POST http://localhost:8081/api/franchises
+Content-Type: application/json
+
+{
+    "name": "Franchise 1"
+}
+
+### Get a franchise by ID
+GET http://localhost:8081/api/franchises/1
+
+### Update a franchise
+PUT http://localhost:8081/api/franchises/1
+Content-Type: application/json
+
+{
+    "name": "Updated Franchise 1"
+}
+
+### Delete a franchise
+DELETE http://localhost:8081/api/franchises/1

@@ -15,6 +15,66 @@ El sistema está diseñado como un monolito modular utilizando Spring Boot, con 
 - Actualizar stock de productos
 - Consultar el producto con mayor stock por sucursal dentro de una franquicia
 
+## Metodología de trabajo
+
+El desarrollo de esta prueba técnica fue abordado bajo un enfoque ágil, descomponiendo el alcance funcional en una épica principal y múltiples historias de usuario priorizadas.
+
+### Épica
+
+**Gestión de franquicias, sucursales y productos**
+
+Permitir la administración de franquicias, sus sucursales y productos asociados, incluyendo operaciones de inventario y consultas de negocio.
+
+### Historias de Usuario
+
+#### HU-01 Crear Franquicia
+Como administrador, quiero registrar una franquicia para gestionar sus sucursales.
+
+**Criterios de aceptación:**
+- Registrar nombre de franquicia.
+- Guardar información correctamente.
+- Retornar confirmación de creación.
+
+#### HU-02 Crear Sucursal
+Como administrador, quiero crear una sucursal asociada a una franquicia para organizar operaciones.
+
+**Criterios de aceptación:**
+- Registrar nombre de sucursal.
+- Asociar a una franquicia existente.
+- Confirmar creación.
+
+#### HU-03 Crear Producto
+Como administrador, quiero registrar productos en una sucursal para controlar stock.
+
+**Criterios de aceptación:**
+- Registrar nombre del producto.
+- Registrar stock inicial.
+- Asociar a una sucursal existente.
+
+#### HU-04 Actualizar Stock
+Como administrador, quiero actualizar el stock de un producto para reflejar inventario real.
+
+**Criterios de aceptación:**
+- Permitir modificación de stock.
+- Persistir nuevo valor.
+- No permitir valores negativos.
+
+#### HU-05 Eliminar Producto
+Como administrador, quiero eliminar productos para depurar inventario.
+
+**Criterios de aceptación:**
+- Eliminar producto existente.
+- Retornar respuesta exitosa.
+- Controlar producto inexistente.
+
+#### HU-06 Consultar Producto con Mayor Stock
+Como administrador, quiero consultar el producto con mayor stock por sucursal de una franquicia para apoyar decisiones operativas.
+
+**Criterios de aceptación:**
+- Consultar por franquicia.
+- Mostrar sucursales asociadas.
+- Mostrar producto con mayor stock por cada sucursal.
+
 ## Tecnologías utilizadas
 
 - Java 25
