@@ -1,0 +1,11 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: franchises-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: franchises_db
+      MYSQL_USER: franchise_user
+      MYSQL_PASSWORD: jCR7D53n&3]z
