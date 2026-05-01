@@ -56,7 +56,7 @@ public class FranchiseController {
     
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Franchise update(@PathVariable Long id, 
+    public FranchiseResponse update(@PathVariable Long id, 
         @Valid @RequestBody FranchiseRequest request
     ) {
         return franchiseService.update(id, request);
