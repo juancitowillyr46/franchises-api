@@ -17,11 +17,11 @@ Content-Type: application/json
 GET http://localhost:8081/api/franchises/1
 
 ### Update a franchise
-PUT http://localhost:8081/api/franchises/1
+PUT http://localhost:8081/api/franchises/2
 Content-Type: application/json
 
 {
-    "name": "Updated Franchise 1"
+    "name": "Updated Franchise 2"
 }
 
 ### Delete a franchise

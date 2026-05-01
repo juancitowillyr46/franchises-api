@@ -75,7 +75,45 @@ Como administrador, quiero consultar el producto con mayor stock por sucursal de
 - Mostrar sucursales asociadas.
 - Mostrar producto con mayor stock por cada sucursal.
 
-## Tecnologías utilizadas
+## Módulos implementados
+
+### Módulo Franquicias
+
+Permite la administración básica de franquicias mediante operaciones CRUD.
+
+#### Funcionalidades implementadas
+
+- Crear franquicia
+- Consultar todas las franquicias
+- Consultar franquicia por ID
+- Actualizar franquicia
+- Eliminar franquicia
+- Validación de datos de entrada
+- Manejo centralizado de errores
+- Respuestas limpias mediante DTOs
+
+#### Endpoints disponibles
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/franchises` | Crear franquicia |
+| GET | `/api/franchises` | Listar franquicias |
+| GET | `/api/franchises/{id}` | Obtener franquicia por ID |
+| PUT | `/api/franchises/{id}` | Actualizar franquicia |
+| DELETE | `/api/franchises/{id}` | Eliminar franquicia |
+
+#### Estructura interna del módulo
+
+```text
+franchise/
+├── controller/
+├── dto/
+├── entity/
+├── repository/
+└── service/
+```
+
+### Tecnologías utilizadas
 
 - Java 25
 - Spring Boot 3.5.14
@@ -92,6 +130,7 @@ El proyecto sigue una arquitectura por capas:
 - **Service**: contiene la lógica de negocio
 - **Repository**: acceso a datos con Spring Data JPA
 - **Entity**: modelo de dominio persistente
+- **DTO**: objetos para solicitudes y respuestas entre cliente y API
 
 ## Modelo de datos
 
@@ -133,9 +172,6 @@ La aplicación está configurada para ejecutarse en entorno local.
 - Puerto: `3306`
 
 ## Credenciales de acceso a la base de datos
-
-- Usuario: `franchise_user`
-- Contraseña: `jCR7D53n&3]z`
 
 Importante: Estas credenciales son utilizadas únicamente para entorno de desarrollo local.
 En entornos productivos deben ser gestionadas mediante variables de entorno o vaults de secretos.
