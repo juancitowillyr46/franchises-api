@@ -68,6 +68,9 @@ Content-Type: application/json
     "branchId": 2
 }
 
+### Get all products
+GET http://localhost:8081/api/products
+
 ### Get a product by ID
 GET http://localhost:8081/api/products/2
 

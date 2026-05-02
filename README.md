@@ -148,6 +148,44 @@ branch/
 └── service/
 ```
 
+### Módulo Productos
+
+Permite la administración de productos asociados a sucursales, incluyendo gestión de stock y operaciones CRUD.
+
+#### Funcionalidades implementadas
+
+- Crear producto asociado a una sucursal
+- Consultar todos los productos
+- Consultar producto por ID
+- Actualizar nombre de producto
+- Actualizar stock de producto
+- Eliminar producto
+- Validación de datos de entrada
+- Manejo centralizado de errores
+- Respuestas limpias mediante DTOs
+
+#### Endpoints disponibles
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/products` | Crear producto |
+| GET | `/api/products` | Listar productos |
+| GET | `/api/products/{id}` | Obtener producto por ID |
+| PUT | `/api/products/{id}` | Actualizar nombre de producto |
+| PATCH | `/api/products/{id}/stock` | Actualizar stock |
+| DELETE | `/api/products/{id}` | Eliminar producto |
+
+#### Estructura interna del módulo
+
+```text
+product/
+├── controller/
+├── dto/
+├── entity/
+├── repository/
+└── service/
+```
+
 ### Tecnologías utilizadas
 
 - Java 25
