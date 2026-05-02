@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### Get a franchise by ID
-GET http://localhost:8081/api/franchises/1
+GET http://localhost:8081/api/franchises/2
 
 ### Update a franchise
 PUT http://localhost:8081/api/franchises/2
