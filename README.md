@@ -113,6 +113,41 @@ franchise/
 └── service/
 ```
 
+### Módulo Sucursales
+
+Permite la administración de sucursales asociadas a franquicias mediante operaciones CRUD.
+
+#### Funcionalidades implementadas
+
+- Consultar todas las sucursales
+- Consultar sucursal por ID
+- Actualizar nombre de sucursal
+- Eliminar sucursal
+- Validación de datos de entrada
+- Manejo centralizado de errores
+- Respuestas limpias mediante DTOs
+
+#### Endpoints disponibles
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/branches` | Crear sucursal |
+| GET | `/api/branches` | Listar sucursales |
+| GET | `/api/branches/{id}` | Obtener sucursal por ID |
+| PUT | `/api/branches/{id}` | Actualizar sucursal |
+| DELETE | `/api/branches/{id}` | Eliminar sucursal |
+
+#### Estructura interna del módulo
+
+```text
+branch/
+├── controller/
+├── dto/
+├── entity/
+├── repository/
+└── service/
+```
+
 ### Tecnologías utilizadas
 
 - Java 25
