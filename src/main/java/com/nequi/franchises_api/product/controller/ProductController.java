@@ -2,6 +2,7 @@ package com.nequi.franchises_api.product.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nequi.franchises_api.product.dto.ProductCreateRequest;
 import com.nequi.franchises_api.product.dto.ProductResponse;
+import com.nequi.franchises_api.product.dto.ProductStockUpdateRequest;
 import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 import com.nequi.franchises_api.product.service.ProductService;
 
@@ -59,5 +61,12 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
+    }
+
+    @PatchMapping("/{id}/stock")
+    public ProductResponse updateStock(
+            @PathVariable Long id, 
+            @Valid @RequestBody ProductStockUpdateRequest request) {
+        return productService.updateStock(id, request);
     }
 }

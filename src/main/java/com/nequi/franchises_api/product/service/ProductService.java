@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nequi.franchises_api.product.dto.ProductCreateRequest;
 import com.nequi.franchises_api.product.dto.ProductResponse;
+import com.nequi.franchises_api.product.dto.ProductStockUpdateRequest;
 import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 
 public interface ProductService {
@@ -15,6 +16,8 @@ public interface ProductService {
     ProductResponse findById(Long id);
 
     ProductResponse update(Long id, ProductUpdateRequest request);
+
+    ProductResponse updateStock(Long id, ProductStockUpdateRequest request);
 
     void delete(Long id);
 }

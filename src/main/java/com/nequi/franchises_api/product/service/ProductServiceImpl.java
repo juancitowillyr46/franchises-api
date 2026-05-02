@@ -8,6 +8,7 @@ import com.nequi.franchises_api.branch.entity.Branch;
 import com.nequi.franchises_api.branch.repository.BranchRepository;
 import com.nequi.franchises_api.product.dto.ProductCreateRequest;
 import com.nequi.franchises_api.product.dto.ProductResponse;
+import com.nequi.franchises_api.product.dto.ProductStockUpdateRequest;
 import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 import com.nequi.franchises_api.product.entity.Product;
 import com.nequi.franchises_api.product.repository.ProductRepository;
@@ -64,6 +65,13 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         Product product = getEntity(id);
         productRepository.delete(product);
+    }
+
+    @Override
+    public ProductResponse updateStock(Long id, ProductStockUpdateRequest request) {
+        Product product = getEntity(id);
+        product.setStock(request.getStock());
+        return toResponse(productRepository.save(product));
     }
 
     private Product getEntity(Long id) {
