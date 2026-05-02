@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nequi.franchises_api.branch.dto.BranchRequest;
+import com.nequi.franchises_api.branch.dto.BranchCreateRequest;
 import com.nequi.franchises_api.branch.dto.BranchResponse;
+import com.nequi.franchises_api.branch.dto.BranchUpdateRequest;
 import com.nequi.franchises_api.branch.service.BranchService;
 
 import jakarta.validation.Valid;
@@ -32,7 +33,7 @@ public class BranchController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BranchResponse create(
-            @Valid @RequestBody BranchRequest request) {
+            @Valid @RequestBody BranchCreateRequest request) {
         return branchService.create(request);
     }
 
@@ -51,7 +52,7 @@ public class BranchController {
     @PutMapping("/{id}")
     public BranchResponse update(
             @PathVariable Long id,
-            @Valid @RequestBody BranchRequest request) {
+            @Valid @RequestBody BranchUpdateRequest request) {
         return branchService.update(id, request);
     }
 

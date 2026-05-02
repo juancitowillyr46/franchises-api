@@ -3,13 +3,16 @@ package com.nequi.franchises_api.branch.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class BranchRequest {
-
+public class BranchCreateRequest {
+    
     @NotBlank(message = "Branch name is required")
     private String name;
 
     @NotNull(message = "Franchise ID is required")
     private Long franchiseId;
+
+    public BranchCreateRequest() {
+    }
 
     public String getName() {
         return name;
@@ -22,8 +25,8 @@ public class BranchRequest {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setFranchiseId(Long franchiseId) {
         this.franchiseId = franchiseId;
-    }
+    }   
 }

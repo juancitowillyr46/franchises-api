@@ -19,7 +19,7 @@ public class Branch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String name;
 
     @ManyToOne(optional = false)
@@ -50,8 +50,5 @@ public class Branch {
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setFranchise(Franchise franchise) {
-        this.franchise = franchise;
-    }
+    
 }

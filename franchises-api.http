@@ -27,6 +27,7 @@ Content-Type: application/json
 ### Delete a franchise
 DELETE http://localhost:8081/api/franchises/1
 
+## Branches API
 
 ### List all branches
 GET http://localhost:8081/api/branches
@@ -41,15 +42,14 @@ Content-Type: application/json
 }
 
 ### Get a branch by ID
-GET http://localhost:8081/api/branches/1
+GET http://localhost:8081/api/branches/2
 
 ### Update a branch
-PUT http://localhost:8081/api/branches/1
+PUT http://localhost:8081/api/branches/3
 Content-Type: application/json
 
 {
-    "name": "Branch updated",
-    "franchiseId": 2
+    "name": "Branch updated"
 }
 
 ### Delete a branch
