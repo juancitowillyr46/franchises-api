@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
-import com.nequi.franchises_api.franchise.entity.Franchise;
 import com.nequi.franchises_api.franchise.service.FranchiseService;
 
 import jakarta.validation.Valid;
