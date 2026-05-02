@@ -54,3 +54,30 @@ Content-Type: application/json
 
 ### Delete a branch
 DELETE http://localhost:8081/api/branches/1
+
+
+## Products API
+
+### Create a new product
+POST http://localhost:8081/api/products
+Content-Type: application/json
+
+{
+    "name": "Product 1",
+    "stock": 0,
+    "branchId": 2
+}
+
+### Get a product by ID
+GET http://localhost:8081/api/products/2
+
+### Update a product
+PUT http://localhost:8081/api/products/2
+Content-Type: application/json
+
+{
+    "name": "Product pañales"
+}
+
+### Delete a product
+DELETE http://localhost:8081/api/products/1 
