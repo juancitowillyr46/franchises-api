@@ -1,9 +1,11 @@
 package com.nequi.franchises_api.branch.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
 public class BranchUpdateRequest {
 
+    @Schema(description = "Branch name", example = "Branch 1")
     @NotBlank(message = "Branch name is required")
     private String name;
 

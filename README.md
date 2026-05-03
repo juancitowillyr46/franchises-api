@@ -207,6 +207,17 @@ product/
 - Si una sucursal tiene productos con stock `0`, el producto con menor `id` entre los de stock máximo se devuelve como top de esa sucursal.
 - En caso de empate de stock, se prioriza el producto con menor `id` para mantener un resultado determinista.
 
+### Contratos de API
+
+- `POST /api/franchises` crea una franquicia con `{ "name": "..." }`.
+- `POST /api/franchises/{id}/branches` crea una sucursal con `{ "name": "..." }`.
+- `POST /api/branches/{id}/products` crea un producto con `{ "name": "...", "stock": 0 }`.
+- `PUT /api/franchises/{id}`, `PUT /api/branches/{id}` y `PUT /api/products/{id}` actualizan el nombre.
+- `PATCH /api/products/{id}/stock` actualiza el stock con `{ "stock": 0 }`.
+- `DELETE /api/products/{id}` responde `204 No Content`.
+- `GET /api/franchises`, `GET /api/branches` y `GET /api/products` aceptan `page`, `size` y `sort`.
+- Swagger UI queda disponible en `/swagger-ui.html` cuando la aplicación está corriendo.
+
 ## Arquitectura del proyecto
 
 El proyecto sigue una arquitectura por capas:
