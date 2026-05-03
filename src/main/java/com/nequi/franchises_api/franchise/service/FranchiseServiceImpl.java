@@ -2,11 +2,12 @@ package com.nequi.franchises_api.franchise.service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.nequi.franchises_api.branch.entity.Branch;
+import com.nequi.franchises_api.branch.repository.BranchRepository;
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
 import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
@@ -21,9 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class FranchiseServiceImpl implements FranchiseService {
 
     private final FranchiseRepository franchiseRepository;
+    private final BranchRepository branchRepository;
 
-    public FranchiseServiceImpl(FranchiseRepository franchiseRepository) {
+    public FranchiseServiceImpl(
+        FranchiseRepository franchiseRepository,
+        BranchRepository branchRepository) {
         this.franchiseRepository = franchiseRepository;
+        this.branchRepository = branchRepository;
     }
 
     @Override
@@ -64,32 +69,30 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Transactional(readOnly = true)
     public List<TopStockProductResponse> getTopStockProducts(Long franchiseId) {
 
-        Franchise franchise = franchiseRepository.findById(franchiseId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Franchise not found"));
+        List<Branch> branches = branchRepository.findByFranchiseId(franchiseId);
 
-        return franchise.getBranches()
-                .stream()
+        return branches.stream()
                 .map(this::mapTopStockProduct)
-                .filter(Objects::nonNull)
+                .flatMap(Optional::stream)
                 .toList();
     }
 
-    private TopStockProductResponse mapTopStockProduct(Branch branch) {
+
+    private Optional<TopStockProductResponse> mapTopStockProduct(Branch branch) {
 
         return branch.getProducts()
-                .stream()
-                .filter(product -> product.getStock() > 0)
-                .max(Comparator.comparing(Product::getStock))
-                .map(product -> new TopStockProductResponse(
-                        product.getId(),
-                        product.getName(),
-                        product.getStock(),
-                        branch.getId(),
-                        branch.getName()
-                ))
-                .orElse(null);
+            .stream()
+            .filter(product -> product.getStock() > 0)
+            .max(Comparator.comparing(Product::getStock))
+            .map(product -> new TopStockProductResponse(
+                    product.getId(),
+                    product.getName(),
+                    product.getStock(),
+                    branch.getId(),
+                    branch.getName()
+            ));
     }
+
 
     private FranchiseResponse toResponse(Franchise franchise) {
         return new FranchiseResponse(
