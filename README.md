@@ -225,9 +225,34 @@ Relaciones:
 1. docker compose up -d
 2. ./mvnw spring-boot:run
 
+### Configuración por entornos
+
+La aplicación usa perfiles de Spring Boot para separar la configuración local de la configuración de cloud:
+
+- `application.yml`: configuración base común.
+- `application-local.yml`: configuración para desarrollo local.
+- `application-prod.yml`: configuración para despliegue en cloud.
+
+Por defecto se usa el perfil `local`.
+
+### Variables de entorno para producción
+
+Cuando se active el perfil `prod`, la aplicación espera estas variables:
+
+- `DB_URL`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `SERVER_PORT` opcional, con valor por defecto `8081`
+
+Ejemplo de activación:
+
+```bash
+SPRING_PROFILES_ACTIVE=prod
+```
+
 ## Variables de configuración
 
-La aplicación está configurada para ejecutarse en entorno local.
+La aplicación está configurada para ejecutarse en entorno local por defecto, y puede adaptarse a cloud mediante perfiles y variables de entorno.
 
 ### API
 
