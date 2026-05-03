@@ -1,0 +1,6 @@
+.git
+.m2repo
+target
+README.md
+franchises-api.http
+.gitignore

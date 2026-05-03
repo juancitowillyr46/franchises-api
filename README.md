@@ -332,8 +332,27 @@ Relaciones:
 
 ### Pasos
 
-1. docker compose up -d
+1. Levantar MySQL con `docker compose up -d mysql`.
 2. ./mvnw spring-boot:run
+3. Abrir `http://localhost:8081/swagger-ui.html` para validar la API.
+
+### Contenedorización
+
+La solución también puede ejecutarse completamente en Docker:
+
+1. Construir y levantar los contenedores con `docker compose up --build`.
+2. Verificar que ambos servicios estén arriba con `docker compose ps`.
+3. La base de datos se expone como `mysql`.
+4. La API se expone en `http://localhost:8081`.
+5. Abrir `http://localhost:8081/swagger-ui.html` para validar la documentación interactiva.
+6. El perfil usado dentro del contenedor es `docker`, mientras que el modo local sigue usando `local` y el perfil de nube real sigue siendo `prod`.
+
+Archivos involucrados:
+
+- `Dockerfile`
+- `docker-compose.yml`
+- `application-docker.yml`
+- `.dockerignore`
 
 ### Configuración por entornos
 
@@ -365,6 +384,13 @@ SPRING_PROFILES_ACTIVE=prod
 1. Levantar MySQL con `docker compose up -d`.
 2. Ejecutar la app con `./mvnw spring-boot:run`.
 3. Abrir `http://localhost:8081/swagger-ui.html` para validar la API.
+
+### Despliegue con Docker
+
+1. Levantar la base de datos y la API con `docker compose up --build`.
+2. Confirmar el estado de los contenedores con `docker compose ps`.
+3. Abrir `http://localhost:8081/swagger-ui.html` para consumir la API desde Swagger.
+4. Detener la solución con `docker compose down` cuando termines.
 
 ### Despliegue en cloud
 
