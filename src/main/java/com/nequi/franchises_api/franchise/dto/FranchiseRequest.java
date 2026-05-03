@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class FranchiseRequest {
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "Franchise name is required")
     private String name;
 
     public FranchiseRequest() {
