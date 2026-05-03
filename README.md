@@ -206,6 +206,7 @@ product/
 - Si una sucursal no tiene productos, no aparece en el resultado.
 - Si una sucursal tiene productos con stock `0`, el producto con menor `id` entre los de stock máximo se devuelve como top de esa sucursal.
 - En caso de empate de stock, se prioriza el producto con menor `id` para mantener un resultado determinista.
+- La consulta se resuelve en repositorio con JPQL directo para evitar navegación en memoria y reducir riesgo de N+1.
 
 ### Contratos de API
 
@@ -217,6 +218,88 @@ product/
 - `DELETE /api/products/{id}` responde `204 No Content`.
 - `GET /api/franchises`, `GET /api/branches` y `GET /api/products` aceptan `page`, `size` y `sort`.
 - Swagger UI queda disponible en `/swagger-ui.html` cuando la aplicación está corriendo.
+
+### Ejemplos de intercambio
+
+#### Crear franquicia
+
+Request:
+```json
+{
+  "name": "Franchise 1"
+}
+```
+
+Response:
+```json
+{
+  "id": 1,
+  "name": "Franchise 1"
+}
+```
+
+#### Crear sucursal en una franquicia
+
+Request:
+```json
+{
+  "name": "Branch 1"
+}
+```
+
+Response:
+```json
+{
+  "id": 1,
+  "name": "Branch 1",
+  "franchiseId": 1
+}
+```
+
+#### Actualizar stock
+
+Request:
+```json
+{
+  "stock": 10
+}
+```
+
+Response:
+```json
+{
+  "id": 1,
+  "name": "Product 1",
+  "stock": 10,
+  "branchId": 1
+}
+```
+
+### Ejemplos de errores
+
+#### 400 Bad Request
+
+```json
+{
+  "timestamp": "2026-05-03T19:00:00Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Franchise name is required",
+  "path": "/api/franchises"
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "timestamp": "2026-05-03T19:00:00Z",
+  "status": 404,
+  "error": "Not Found",
+  "message": "Franchise not found",
+  "path": "/api/franchises/999"
+}
+```
 
 ## Arquitectura del proyecto
 
@@ -277,6 +360,19 @@ Ejemplo de activación:
 SPRING_PROFILES_ACTIVE=prod
 ```
 
+### Despliegue local
+
+1. Levantar MySQL con `docker compose up -d`.
+2. Ejecutar la app con `./mvnw spring-boot:run`.
+3. Abrir `http://localhost:8081/swagger-ui.html` para validar la API.
+
+### Despliegue en cloud
+
+1. Compilar la aplicación.
+2. Ejecutar con el perfil `prod`.
+3. Proveer `DB_URL`, `DB_USERNAME` y `DB_PASSWORD` como variables de entorno del entorno cloud.
+4. Apuntar la aplicación a una base de datos MySQL administrada en la nube.
+
 ## Variables de configuración
 
 La aplicación está configurada para ejecutarse en entorno local por defecto, y puede adaptarse a cloud mediante perfiles y variables de entorno.
@@ -291,6 +387,7 @@ La aplicación está configurada para ejecutarse en entorno local por defecto, y
 - Base de datos: `franchises_db`
 - Host: `localhost`
 - Puerto: `3306`
+- En cloud, estos valores salen de las variables de entorno del perfil `prod`.
 
 ## Credenciales de acceso a la base de datos
 
