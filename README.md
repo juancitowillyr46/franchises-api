@@ -87,7 +87,6 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 - Consultar todas las franquicias
 - Consultar franquicia por ID
 - Actualizar franquicia
-- Eliminar franquicia
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
@@ -100,7 +99,6 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 | GET | `/api/franchises` | Listar franquicias |
 | GET | `/api/franchises/{id}` | Obtener franquicia por ID |
 | PUT | `/api/franchises/{id}` | Actualizar franquicia |
-| DELETE | `/api/franchises/{id}` | Eliminar franquicia |
 
 #### Estructura interna del módulo
 
@@ -122,7 +120,6 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 - Consultar todas las sucursales
 - Consultar sucursal por ID
 - Actualizar nombre de sucursal
-- Eliminar sucursal
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
@@ -135,7 +132,6 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 | GET | `/api/branches` | Listar sucursales |
 | GET | `/api/branches/{id}` | Obtener sucursal por ID |
 | PUT | `/api/branches/{id}` | Actualizar sucursal |
-| DELETE | `/api/branches/{id}` | Eliminar sucursal |
 
 #### Estructura interna del módulo
 

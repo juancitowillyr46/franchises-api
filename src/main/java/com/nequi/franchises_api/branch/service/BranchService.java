@@ -15,6 +15,4 @@ public interface BranchService {
     BranchResponse findById(Long id);
 
     BranchResponse update(Long id, BranchUpdateRequest request);
-
-    void delete(Long id);
 }

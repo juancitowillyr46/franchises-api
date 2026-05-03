@@ -56,9 +56,4 @@ public class BranchController {
         return branchService.update(id, request);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        branchService.delete(id);
-    }
 }

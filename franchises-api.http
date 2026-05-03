@@ -24,9 +24,6 @@ Content-Type: application/json
     "name": "Updated Franchise 2"
 }
 
-### Delete a franchise
-DELETE http://localhost:8081/api/franchises/1
-
 ## Branches API
 
 ### List all branches
@@ -51,10 +48,6 @@ Content-Type: application/json
 {
     "name": "Branch updated"
 }
-
-### Delete a branch
-DELETE http://localhost:8081/api/branches/1
-
 
 ## Products API
 
@@ -86,7 +79,7 @@ Content-Type: application/json
 DELETE http://localhost:8081/api/products/1 
 
 ### Update stock of a product
-PATCH http://localhost:8081/api/products/2/stock
+PATCH http://localhost:8081/api/products/3/stock
 Content-Type: application/json
 
 {

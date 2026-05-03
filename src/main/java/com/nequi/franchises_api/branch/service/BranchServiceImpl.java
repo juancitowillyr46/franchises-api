@@ -54,12 +54,6 @@ public class BranchServiceImpl implements BranchService {
         return toResponse(branchRepository.save(branch));
     }
 
-    @Override
-    public void delete(Long id) {
-        Branch branch = getEntity(id);
-        branchRepository.delete(branch);
-    }
-
     private Branch getEntity(Long id) {
         return branchRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Branch not found with id: " + id));   

@@ -63,12 +63,6 @@ public class FranchiseController {
         return franchiseService.update(id, request);
     }
     
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        franchiseService.delete(id);
-    }
-
     @GetMapping("/{id}/top-stock-products")
     @ResponseStatus(HttpStatus.OK)
     public List<TopStockProductResponse> getTopStockProducts(

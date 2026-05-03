@@ -60,12 +60,6 @@ public class FranchiseServiceImpl implements FranchiseService {
     }
 
     @Override
-    public void delete(Long id) {
-        Franchise franchise = getEntity(id);
-        franchiseRepository.delete(franchise);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<TopStockProductResponse> getTopStockProducts(Long franchiseId) {
 

@@ -16,7 +16,5 @@ public interface FranchiseService {
     
     FranchiseResponse update(Long id, FranchiseRequest request);
     
-    void delete(Long id);
-
     List<TopStockProductResponse> getTopStockProducts(Long franchiseId);
 }
