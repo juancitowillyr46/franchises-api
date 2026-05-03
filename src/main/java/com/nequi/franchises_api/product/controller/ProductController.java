@@ -1,5 +1,8 @@
 package com.nequi.franchises_api.product.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,8 +21,6 @@ import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 import com.nequi.franchises_api.product.service.ProductService;
 
 import jakarta.validation.Valid;
-
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
@@ -42,8 +43,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponse> findAll() {
-        return productService.findAll();
+    public Page<ProductResponse> findAll(@PageableDefault(size = 10) Pageable pageable) {
+        return productService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

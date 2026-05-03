@@ -1,19 +1,17 @@
 package com.nequi.franchises_api.franchise.service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.nequi.franchises_api.branch.entity.Branch;
-import com.nequi.franchises_api.branch.repository.BranchRepository;
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
 import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
 import com.nequi.franchises_api.franchise.entity.Franchise;
 import com.nequi.franchises_api.franchise.repository.FranchiseRepository;
-import com.nequi.franchises_api.product.entity.Product;
+import com.nequi.franchises_api.product.repository.ProductRepository;
 import com.nequi.franchises_api.shared.exception.ResourceNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class FranchiseServiceImpl implements FranchiseService {
 
     private final FranchiseRepository franchiseRepository;
-    private final BranchRepository branchRepository;
+    private final ProductRepository productRepository;
 
     public FranchiseServiceImpl(
         FranchiseRepository franchiseRepository,
-        BranchRepository branchRepository) {
+        ProductRepository productRepository) {
         this.franchiseRepository = franchiseRepository;
-        this.branchRepository = branchRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -39,11 +37,9 @@ public class FranchiseServiceImpl implements FranchiseService {
     }
 
     @Override
-    public List<FranchiseResponse> findAll() {
-        return franchiseRepository.findAll()
-                    .stream()
-                    .map(this::toResponse)
-                    .toList();
+    @Transactional(readOnly = true)
+    public Page<FranchiseResponse> findAll(Pageable pageable) {
+        return franchiseRepository.findAllSummaries(pageable);
     }
 
     @Override
@@ -62,29 +58,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Override
     @Transactional(readOnly = true)
     public List<TopStockProductResponse> getTopStockProducts(Long franchiseId) {
-
-        List<Branch> branches = branchRepository.findByFranchiseId(franchiseId);
-
-        return branches.stream()
-                .map(this::mapTopStockProduct)
-                .flatMap(Optional::stream)
-                .toList();
-    }
-
-
-    private Optional<TopStockProductResponse> mapTopStockProduct(Branch branch) {
-
-        return branch.getProducts()
-            .stream()
-            .filter(product -> product.getStock() > 0)
-            .max(Comparator.comparing(Product::getStock))
-            .map(product -> new TopStockProductResponse(
-                    product.getId(),
-                    product.getName(),
-                    product.getStock(),
-                    branch.getId(),
-                    branch.getName()
-            ));
+        return productRepository.findTopStockProductsByFranchiseId(franchiseId);
     }
 
 

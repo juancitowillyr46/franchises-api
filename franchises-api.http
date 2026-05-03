@@ -3,7 +3,7 @@ GET http://localhost:8081
 ## Franchises API
 
 ### List all franchises
-GET http://localhost:8081/api/franchises
+GET http://localhost:8081/api/franchises?page=0&size=10
 
 ### Create a new franchise
 POST http://localhost:8081/api/franchises
@@ -27,7 +27,7 @@ Content-Type: application/json
 ## Branches API
 
 ### List all branches
-GET http://localhost:8081/api/branches
+GET http://localhost:8081/api/branches?page=0&size=10
 
 ### Create a new branch
 POST http://localhost:8081/api/branches
@@ -62,7 +62,7 @@ Content-Type: application/json
 }
 
 ### Get all products
-GET http://localhost:8081/api/products
+GET http://localhost:8081/api/products?page=0&size=10
 
 ### Get a product by ID
 GET http://localhost:8081/api/products/2

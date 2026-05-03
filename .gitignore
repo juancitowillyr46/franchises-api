@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+.m2repo/org/springframework/boot/spring-boot-starter-parent/3.5.14/spring-boot-starter-parent-3.5.14.pom.4452450085299450891.tmp
+.m2repo/org/springframework/boot/spring-boot-starter-parent/3.5.14/spring-boot-starter-parent-3.5.14.pom.4452450085299450891.tmp.13402116345313453697.tmp
+.m2repo/org/springframework/boot/spring-boot-starter-parent/3.5.14/spring-boot-starter-parent-3.5.14.pom.lastUpdated

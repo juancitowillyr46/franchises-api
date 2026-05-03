@@ -100,6 +100,8 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 | GET | `/api/franchises/{id}` | Obtener franquicia por ID |
 | PUT | `/api/franchises/{id}` | Actualizar franquicia |
 
+> Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
+
 #### Estructura interna del módulo
 
 ```text
@@ -132,6 +134,8 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 | GET | `/api/branches` | Listar sucursales |
 | GET | `/api/branches/{id}` | Obtener sucursal por ID |
 | PUT | `/api/branches/{id}` | Actualizar sucursal |
+
+> Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
 
 #### Estructura interna del módulo
 
@@ -170,6 +174,8 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 | PUT | `/api/products/{id}` | Actualizar nombre de producto |
 | PATCH | `/api/products/{id}/stock` | Actualizar stock |
 | DELETE | `/api/products/{id}` | Eliminar producto |
+
+> Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
 
 #### Estructura interna del módulo
 
