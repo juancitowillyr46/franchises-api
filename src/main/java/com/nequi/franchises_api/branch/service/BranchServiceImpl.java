@@ -8,6 +8,7 @@ import com.nequi.franchises_api.branch.dto.BranchCreateRequest;
 import com.nequi.franchises_api.branch.dto.BranchResponse;
 import com.nequi.franchises_api.branch.dto.BranchUpdateRequest;
 import com.nequi.franchises_api.branch.entity.Branch;
+import com.nequi.franchises_api.branch.mapper.BranchMapper;
 import com.nequi.franchises_api.branch.repository.BranchRepository;
 import com.nequi.franchises_api.franchise.entity.Franchise;
 import com.nequi.franchises_api.franchise.repository.FranchiseRepository;
@@ -18,19 +19,22 @@ public class BranchServiceImpl implements BranchService {
     
     private final BranchRepository branchRepository;
     private final FranchiseRepository franchiseRepository;
+    private final BranchMapper branchMapper;
 
     public BranchServiceImpl(
             BranchRepository branchRepository, 
-            FranchiseRepository franchiseRepository) {
+            FranchiseRepository franchiseRepository,
+            BranchMapper branchMapper) {
         this.branchRepository = branchRepository;
         this.franchiseRepository = franchiseRepository;
+        this.branchMapper = branchMapper;
     }
 
     @Override
     public BranchResponse create(BranchCreateRequest request) {
         Franchise franchise = getFranchise(request.getFranchiseId());
         Branch branch = new Branch(request.getName(), franchise);
-        return toResponse(branchRepository.save(branch));
+        return branchMapper.toResponse(branchRepository.save(branch));
     }
 
     @Override
@@ -41,14 +45,14 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public BranchResponse findById(Long id) {
         Branch branch = getEntity(id);
-        return toResponse(branch);
+        return branchMapper.toResponse(branch);
     }
 
     @Override
     public BranchResponse update(Long id, BranchUpdateRequest request) {
         Branch branch = getEntity(id);
         branch.setName(request.getName());
-        return toResponse(branchRepository.save(branch));
+        return branchMapper.toResponse(branchRepository.save(branch));
     }
 
     private Branch getEntity(Long id) {
@@ -59,14 +63,6 @@ public class BranchServiceImpl implements BranchService {
     private Franchise getFranchise(Long franchiseId) {
         return franchiseRepository.findById(franchiseId)
                     .orElseThrow(() -> new ResourceNotFoundException("Franchise not found with id: " + franchiseId));   
-    }
-
-    private BranchResponse toResponse(Branch branch) {
-        return new BranchResponse(
-                branch.getId(), 
-                branch.getName(), 
-                branch.getFranchise().getId()
-        );
     }
 
 }

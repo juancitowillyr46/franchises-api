@@ -11,6 +11,7 @@ import com.nequi.franchises_api.product.dto.ProductResponse;
 import com.nequi.franchises_api.product.dto.ProductStockUpdateRequest;
 import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 import com.nequi.franchises_api.product.entity.Product;
+import com.nequi.franchises_api.product.mapper.ProductMapper;
 import com.nequi.franchises_api.product.repository.ProductRepository;
 import com.nequi.franchises_api.shared.exception.ResourceNotFoundException;
 
@@ -19,12 +20,15 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final BranchRepository branchRepository;
+    private final ProductMapper productMapper;
 
     public ProductServiceImpl(
             ProductRepository productRepository, 
-            BranchRepository branchRepository) {
+            BranchRepository branchRepository,
+            ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.branchRepository = branchRepository;
+        this.productMapper = productMapper;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
             branch
         );
         productRepository.save(product);
-        return toResponse(product);
+        return productMapper.toResponse(product);
     }
 
     @Override
@@ -48,14 +52,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse findById(Long id) {
         Product product = getEntity(id);
-        return toResponse(product);
+        return productMapper.toResponse(product);
     }
 
     @Override
     public ProductResponse update(Long id, ProductUpdateRequest request) {
         Product product = getEntity(id);
         product.setName(request.getName());
-        return toResponse(productRepository.save(product));
+        return productMapper.toResponse(productRepository.save(product));
     }
 
     @Override
@@ -68,21 +72,12 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse updateStock(Long id, ProductStockUpdateRequest request) {
         Product product = getEntity(id);
         product.setStock(request.getStock());
-        return toResponse(productRepository.save(product));
+        return productMapper.toResponse(productRepository.save(product));
     }
 
     private Product getEntity(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
-    }
-
-    private ProductResponse toResponse(Product product) {
-        return new ProductResponse(
-            product.getId(),
-            product.getName(),
-            product.getStock(),
-            product.getBranch().getId()
-        );
     }
 
     private Branch getBranch(Long branchId) {

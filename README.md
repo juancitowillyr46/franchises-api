@@ -90,6 +90,7 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
+- Paginación en listados
 
 #### Endpoints disponibles
 
@@ -125,6 +126,7 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
+- Paginación en listados
 
 #### Endpoints disponibles
 
@@ -163,6 +165,7 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
+- Paginación en listados
 
 #### Endpoints disponibles
 
@@ -196,6 +199,12 @@ product/
 - MySQL 8
 - Docker Compose
 - Maven
+
+### Reglas de negocio de top stock
+
+- Si una sucursal no tiene productos, no aparece en el resultado.
+- Si una sucursal tiene productos con stock `0`, el producto con menor `id` entre los de stock máximo se devuelve como top de esa sucursal.
+- En caso de empate de stock, se prioriza el producto con menor `id` para mantener un resultado determinista.
 
 ## Arquitectura del proyecto
 
