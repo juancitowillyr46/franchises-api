@@ -13,6 +13,14 @@ Content-Type: application/json
     "name": "Franchise 1"
 }
 
+### Create a new branch in a franchise
+POST http://localhost:8081/api/franchises/2/branches
+Content-Type: application/json
+
+{
+    "name": "Branch 1"
+}
+
 ### Get a franchise by ID
 GET http://localhost:8081/api/franchises/2
 
@@ -29,15 +37,6 @@ Content-Type: application/json
 ### List all branches
 GET http://localhost:8081/api/branches?page=0&size=10
 
-### Create a new branch
-POST http://localhost:8081/api/branches
-Content-Type: application/json
-
-{
-    "name": "Branch 1",
-    "franchiseId": 2
-}
-
 ### Get a branch by ID
 GET http://localhost:8081/api/branches/2
 
@@ -49,17 +48,16 @@ Content-Type: application/json
     "name": "Branch updated"
 }
 
-## Products API
-
-### Create a new product
-POST http://localhost:8081/api/products
+### Create a new product in a branch
+POST http://localhost:8081/api/branches/2/products
 Content-Type: application/json
 
 {
     "name": "Product 2",
-    "stock": 2,
-    "branchId": 2
+    "stock": 2
 }
+
+## Products API
 
 ### Get all products
 GET http://localhost:8081/api/products?page=0&size=10

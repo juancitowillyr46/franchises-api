@@ -31,8 +31,8 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public BranchResponse create(BranchCreateRequest request) {
-        Franchise franchise = getFranchise(request.getFranchiseId());
+    public BranchResponse create(Long franchiseId, BranchCreateRequest request) {
+        Franchise franchise = getFranchise(franchiseId);
         Branch branch = new Branch(request.getName(), franchise);
         return branchMapper.toResponse(branchRepository.save(branch));
     }

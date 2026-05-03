@@ -84,6 +84,7 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 #### Funcionalidades implementadas
 
 - Crear franquicia
+- Crear sucursal dentro de una franquicia
 - Consultar todas las franquicias
 - Consultar franquicia por ID
 - Actualizar franquicia
@@ -97,6 +98,7 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | POST | `/api/franchises` | Crear franquicia |
+| POST | `/api/franchises/{id}/branches` | Crear sucursal dentro de una franquicia |
 | GET | `/api/franchises` | Listar franquicias |
 | GET | `/api/franchises/{id}` | Obtener franquicia por ID |
 | PUT | `/api/franchises/{id}` | Actualizar franquicia |
@@ -120,6 +122,7 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 
 #### Funcionalidades implementadas
 
+- Crear producto dentro de una sucursal
 - Consultar todas las sucursales
 - Consultar sucursal por ID
 - Actualizar nombre de sucursal
@@ -132,10 +135,10 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
-| POST | `/api/branches` | Crear sucursal |
 | GET | `/api/branches` | Listar sucursales |
 | GET | `/api/branches/{id}` | Obtener sucursal por ID |
 | PUT | `/api/branches/{id}` | Actualizar sucursal |
+| POST | `/api/branches/{id}/products` | Crear producto dentro de una sucursal |
 
 > Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
 
@@ -156,7 +159,6 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 
 #### Funcionalidades implementadas
 
-- Crear producto asociado a una sucursal
 - Consultar todos los productos
 - Consultar producto por ID
 - Actualizar nombre de producto
@@ -171,7 +173,6 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
-| POST | `/api/products` | Crear producto |
 | GET | `/api/products` | Listar productos |
 | GET | `/api/products/{id}` | Obtener producto por ID |
 | PUT | `/api/products/{id}` | Actualizar nombre de producto |

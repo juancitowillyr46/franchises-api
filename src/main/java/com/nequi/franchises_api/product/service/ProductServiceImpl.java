@@ -32,9 +32,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse create(ProductCreateRequest request) {
+    public ProductResponse create(Long branchId, ProductCreateRequest request) {
 
-        Branch branch = getBranch(request.getBranchId());
+        Branch branch = getBranch(branchId);
         Product product = new Product(
             request.getName(), 
             request.getStock(), 

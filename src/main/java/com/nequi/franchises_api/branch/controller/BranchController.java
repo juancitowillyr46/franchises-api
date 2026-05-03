@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nequi.franchises_api.branch.dto.BranchCreateRequest;
 import com.nequi.franchises_api.branch.dto.BranchResponse;
 import com.nequi.franchises_api.branch.dto.BranchUpdateRequest;
 import com.nequi.franchises_api.branch.service.BranchService;
+import com.nequi.franchises_api.product.dto.ProductCreateRequest;
+import com.nequi.franchises_api.product.dto.ProductResponse;
+import com.nequi.franchises_api.product.service.ProductService;
 
 import jakarta.validation.Valid;
 
@@ -25,16 +27,13 @@ import jakarta.validation.Valid;
 public class BranchController {
 
     private final BranchService branchService;
+    private final ProductService productService;
 
-    public BranchController(BranchService branchService) {
+    public BranchController(
+            BranchService branchService,
+            ProductService productService) {
         this.branchService = branchService;
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public BranchResponse create(
-            @Valid @RequestBody BranchCreateRequest request) {
-        return branchService.create(request);
+        this.productService = productService;
     }
 
     @GetMapping
@@ -42,7 +41,7 @@ public class BranchController {
         return branchService.findAll(pageable);
     }
     
-    @GetMapping(("/{id}"))
+    @GetMapping("/{id}")
     public BranchResponse findById(
         @PathVariable Long id
     ) {
@@ -54,6 +53,14 @@ public class BranchController {
             @PathVariable Long id,
             @Valid @RequestBody BranchUpdateRequest request) {
         return branchService.update(id, request);
+    }
+
+    @PostMapping("/{id}/products")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResponse createProduct(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductCreateRequest request) {
+        return productService.create(id, request);
     }
 
 }

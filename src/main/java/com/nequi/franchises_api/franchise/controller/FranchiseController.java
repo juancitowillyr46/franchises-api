@@ -2,10 +2,19 @@ package com.nequi.franchises_api.franchise.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nequi.franchises_api.branch.dto.BranchCreateRequest;
+import com.nequi.franchises_api.branch.dto.BranchResponse;
+import com.nequi.franchises_api.branch.service.BranchService;
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
 import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
@@ -13,15 +22,8 @@ import com.nequi.franchises_api.franchise.service.FranchiseService;
 
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.data.domain.Pageable;
 
 
@@ -30,9 +32,13 @@ import org.springframework.data.domain.Pageable;
 public class FranchiseController {
 
     private final FranchiseService franchiseService;
+    private final BranchService branchService;
 
-    public FranchiseController(FranchiseService franchiseService) {
+    public FranchiseController(
+            FranchiseService franchiseService,
+            BranchService branchService) {
         this.franchiseService = franchiseService;
+        this.branchService = branchService;
     }
 
     @PostMapping()
@@ -41,6 +47,14 @@ public class FranchiseController {
         @Valid @RequestBody FranchiseRequest request
     ) {
         return franchiseService.create(request);
+    }
+
+    @PostMapping("/{id}/branches")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BranchResponse createBranch(
+            @PathVariable Long id,
+            @Valid @RequestBody BranchCreateRequest request) {
+        return branchService.create(id, request);
     }
 
     @GetMapping()
@@ -52,7 +66,7 @@ public class FranchiseController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public FranchiseResponse finById(@PathVariable Long id) {
+    public FranchiseResponse findById(@PathVariable Long id) {
         return franchiseService.findById(id);
     }
     

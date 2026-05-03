@@ -9,7 +9,7 @@ import com.nequi.franchises_api.branch.dto.BranchUpdateRequest;
 
 public interface BranchService {
 
-    BranchResponse create(BranchCreateRequest request);
+    BranchResponse create(Long franchiseId, BranchCreateRequest request);
 
     Page<BranchResponse> findAll(Pageable pageable);
 

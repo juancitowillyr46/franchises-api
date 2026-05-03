@@ -10,7 +10,7 @@ import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 
 public interface ProductService {
 
-    ProductResponse create(ProductCreateRequest request);
+    ProductResponse create(Long branchId, ProductCreateRequest request);
 
     Page<ProductResponse> findAll(Pageable pageable);
 

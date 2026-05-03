@@ -13,9 +13,6 @@ public class ProductCreateRequest {
     @Min(value = 0, message = "Stock must be a non-negative integer")
     private Integer stock;
 
-    @NotNull(message = "Branch ID is required")
-    private Long branchId;
-
     public ProductCreateRequest() {
     }
 
@@ -27,19 +24,11 @@ public class ProductCreateRequest {
         return stock;
     }
 
-    public Long getBranchId() {
-        return branchId;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
     public void setStock(Integer stock) {
         this.stock = stock;
-    }
-
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
     }
 }
