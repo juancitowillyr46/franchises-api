@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
+import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
 import com.nequi.franchises_api.franchise.service.FranchiseService;
 
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,5 +67,13 @@ public class FranchiseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         franchiseService.delete(id);
+    }
+
+    @GetMapping("/{id}/top-stock-products")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TopStockProductResponse> getTopStockProducts(
+            @PathVariable Long id) {
+
+        return franchiseService.getTopStockProducts(id);
     }
 }

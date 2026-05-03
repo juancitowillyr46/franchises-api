@@ -1,14 +1,21 @@
 package com.nequi.franchises_api.franchise.service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import com.nequi.franchises_api.branch.entity.Branch;
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
+import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
 import com.nequi.franchises_api.franchise.entity.Franchise;
 import com.nequi.franchises_api.franchise.repository.FranchiseRepository;
+import com.nequi.franchises_api.product.entity.Product;
 import com.nequi.franchises_api.shared.exception.ResourceNotFoundException;
+
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FranchiseServiceImpl implements FranchiseService {
@@ -51,6 +58,37 @@ public class FranchiseServiceImpl implements FranchiseService {
     public void delete(Long id) {
         Franchise franchise = getEntity(id);
         franchiseRepository.delete(franchise);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TopStockProductResponse> getTopStockProducts(Long franchiseId) {
+
+        Franchise franchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Franchise not found"));
+
+        return franchise.getBranches()
+                .stream()
+                .map(this::mapTopStockProduct)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private TopStockProductResponse mapTopStockProduct(Branch branch) {
+
+        return branch.getProducts()
+                .stream()
+                .filter(product -> product.getStock() > 0)
+                .max(Comparator.comparing(Product::getStock))
+                .map(product -> new TopStockProductResponse(
+                        product.getId(),
+                        product.getName(),
+                        product.getStock(),
+                        branch.getId(),
+                        branch.getName()
+                ))
+                .orElse(null);
     }
 
     private FranchiseResponse toResponse(Franchise franchise) {

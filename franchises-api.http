@@ -63,8 +63,8 @@ POST http://localhost:8081/api/products
 Content-Type: application/json
 
 {
-    "name": "Product 1",
-    "stock": 0,
+    "name": "Product 2",
+    "stock": 2,
     "branchId": 2
 }
 
@@ -92,3 +92,6 @@ Content-Type: application/json
 {
     "stock": 10
 }
+
+### Get top stock product by branch for a franchise
+GET http://localhost:8081/api/franchises/2/top-stock-products

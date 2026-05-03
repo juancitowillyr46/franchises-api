@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
+import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
 
 public interface FranchiseService {
     
@@ -16,4 +17,6 @@ public interface FranchiseService {
     FranchiseResponse update(Long id, FranchiseRequest request);
     
     void delete(Long id);
+
+    List<TopStockProductResponse> getTopStockProducts(Long franchiseId);
 }

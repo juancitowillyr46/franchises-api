@@ -1,6 +1,10 @@
 package com.nequi.franchises_api.branch.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.nequi.franchises_api.franchise.entity.Franchise;
+import com.nequi.franchises_api.product.entity.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +30,9 @@ public class Branch {
     @ManyToOne(optional = false)
     @JoinColumn(name = "franchise_id", nullable = false)
     private Franchise franchise;
+
+    @OneToMany(mappedBy = "branch")
+    private List<Product> products = new ArrayList<>();
 
     public Branch() {
 
@@ -51,4 +59,7 @@ public class Branch {
         this.name = name;
     }
     
+    public List<Product> getProducts() {
+        return products;
+    }
 }
