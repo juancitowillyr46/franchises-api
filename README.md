@@ -494,7 +494,10 @@ SPRING_PROFILES_ACTIVE=render
 2. Ejecutar con el perfil `render` en el primer despliegue para que Hibernate cree el esquema.
 3. Proveer `DB_URL`, `DB_USERNAME` y `DB_PASSWORD` como variables de entorno del entorno cloud.
 4. Apuntar la aplicación a una base de datos MySQL administrada en la nube.
-5. Si más adelante quieres endurecer la validación del esquema, cambiar al perfil `prod`.
+5. La URL pública del despliegue actual es `https://franchises-api-26zn.onrender.com/`.
+6. Swagger UI está disponible en `https://franchises-api-26zn.onrender.com/swagger-ui/index.html`.
+7. Si el servicio queda inactivo por momentos, es comportamiento normal del free tier de Render y puede tardar unos segundos en despertar.
+8. El archivo `application-prod.yml` queda preparado para un cambio futuro a validación estricta del esquema cuando se quiera endurecer el despliegue.
 
 ## Variables de configuración
 
@@ -510,7 +513,7 @@ La aplicación está configurada para ejecutarse en entorno local por defecto, y
 - Base de datos: `franchises_db`
 - Host: `localhost`
 - Puerto: `3306`
-- En cloud, estos valores salen de las variables de entorno del perfil `prod`.
+- En cloud, estos valores salen de las variables de entorno del perfil `render` o, en un ajuste futuro, del perfil `prod`.
 
 ## Credenciales de acceso a la base de datos
 
