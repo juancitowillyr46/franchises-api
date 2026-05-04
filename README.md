@@ -443,6 +443,7 @@ La aplicación usa perfiles de Spring Boot para separar la configuración local 
 - `application.yml`: configuración base común.
 - `application-local.yml`: configuración para desarrollo local.
 - `application-docker.yml`: configuración para ejecutar la API con Docker Compose.
+- `application-render.yml`: configuración para el primer despliegue en Render con creación automática del esquema.
 - `application-prod.yml`: configuración para despliegue en cloud.
 
 Por defecto se usa el perfil `local`.
@@ -459,9 +460,9 @@ Las respuestas exitosas usan el wrapper `StandardResponse` con esta forma genera
 }
 ```
 
-### Variables de entorno para producción
+### Variables de entorno para Render y producción
 
-Cuando se active el perfil `prod`, la aplicación espera estas variables:
+Cuando se active el perfil `render` o `prod`, la aplicación espera estas variables:
 
 - `DB_URL`
 - `DB_USERNAME`
@@ -471,7 +472,7 @@ Cuando se active el perfil `prod`, la aplicación espera estas variables:
 Ejemplo de activación:
 
 ```bash
-SPRING_PROFILES_ACTIVE=prod
+SPRING_PROFILES_ACTIVE=render
 ```
 
 ### Despliegue local
@@ -490,9 +491,10 @@ SPRING_PROFILES_ACTIVE=prod
 ### Despliegue en cloud
 
 1. Compilar la aplicación.
-2. Ejecutar con el perfil `prod`.
+2. Ejecutar con el perfil `render` en el primer despliegue para que Hibernate cree el esquema.
 3. Proveer `DB_URL`, `DB_USERNAME` y `DB_PASSWORD` como variables de entorno del entorno cloud.
 4. Apuntar la aplicación a una base de datos MySQL administrada en la nube.
+5. Si más adelante quieres endurecer la validación del esquema, cambiar al perfil `prod`.
 
 ## Variables de configuración
 
