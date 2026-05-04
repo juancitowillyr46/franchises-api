@@ -44,15 +44,15 @@ Como administrador, quiero crear una sucursal asociada a una franquicia para org
 - Confirmar creación.
 
 #### HU-03 Crear Producto
-Como administrador, quiero registrar productos en una sucursal para controlar stock.
+Como administrador, quiero registrar productos en el catálogo para luego ofertarlos en sucursales.
 
 **Criterios de aceptación:**
 - Registrar nombre del producto.
-- Registrar stock inicial.
-- Asociar a una sucursal existente.
+- Guardar el producto en el catálogo.
+- Retornar confirmación de creación.
 
 #### HU-04 Actualizar Stock
-Como administrador, quiero actualizar el stock de un producto para reflejar inventario real.
+Como administrador, quiero actualizar el stock de un producto ofertado en una sucursal para reflejar inventario real.
 
 **Criterios de aceptación:**
 - Permitir modificación de stock.
@@ -60,10 +60,10 @@ Como administrador, quiero actualizar el stock de un producto para reflejar inve
 - No permitir valores negativos.
 
 #### HU-05 Eliminar Producto
-Como administrador, quiero eliminar productos para depurar inventario.
+Como administrador, quiero eliminar productos del catálogo o retirarlos de una sucursal para depurar inventario.
 
 **Criterios de aceptación:**
-- Eliminar producto existente.
+- Eliminar producto existente del catálogo o de la sucursal según el contexto.
 - Retornar respuesta exitosa.
 - Controlar producto inexistente.
 
@@ -153,14 +153,14 @@ branch/
 
 ### Módulo Productos
 
-Permite la administración de productos asociados a sucursales, incluyendo gestión de stock y operaciones CRUD.
+Permite la administración del catálogo de productos.
 
 #### Funcionalidades implementadas
 
-- Consultar todos los productos
+- Consultar todos los productos del catálogo
+- Crear producto en el catálogo
 - Consultar producto por ID
 - Actualizar nombre de producto
-- Actualizar stock de producto
 - Eliminar producto
 - Validación de datos de entrada
 - Manejo centralizado de errores
@@ -170,10 +170,10 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
+| POST | `/api/products` | Crear producto en el catálogo |
 | GET | `/api/products` | Listar productos |
 | GET | `/api/products/{id}` | Obtener producto por ID |
 | PUT | `/api/products/{id}` | Actualizar nombre de producto |
-| PATCH | `/api/products/{id}/stock` | Actualizar stock |
 | DELETE | `/api/products/{id}` | Eliminar producto |
 
 > Las respuestas exitosas se entregan con el wrapper estándar `StandardResponse`, con los campos `success`, `message` y `data`.
@@ -204,15 +204,19 @@ product/
 - Si una sucursal tiene productos con stock `0`, el producto con menor `id` entre los de stock máximo se devuelve como top de esa sucursal.
 - En caso de empate de stock, se prioriza el producto con menor `id` para mantener un resultado determinista.
 - La consulta se resuelve en repositorio con JPQL directo para evitar navegación en memoria y reducir riesgo de N+1.
+- La tabla `products` representa el catálogo de productos.
+- La tabla `branch_products` representa el inventario por sucursal y guarda la relación `branch_id` + `product_id` con el stock de esa sucursal.
 
 ### Contratos de API
 
 - `POST /api/franchises` crea una franquicia con `{ "name": "..." }`.
 - `POST /api/franchises/{id}/branches` crea una sucursal con `{ "name": "..." }`.
-- `POST /api/branches/{id}/products` crea un producto con `{ "name": "...", "stock": 0 }`.
+- `POST /api/products` crea un producto en el catálogo con `{ "name": "..." }`.
+- `POST /api/branches/{id}/products` registra un producto existente en la sucursal con `{ "productId": 1, "stock": 0 }`.
 - `PUT /api/franchises/{id}`, `PUT /api/branches/{id}` y `PUT /api/products/{id}` actualizan el nombre.
-- `PATCH /api/products/{id}/stock` actualiza el stock con `{ "stock": 0 }`.
-- `DELETE /api/products/{id}` responde `204 No Content`.
+- `PATCH /api/branches/{branchId}/products/{productId}/stock` actualiza el stock de la relación sucursal-producto con `{ "stock": 0 }`.
+- `DELETE /api/products/{id}` elimina un producto del catálogo y limpia sus relaciones con sucursales.
+- `DELETE /api/branches/{branchId}/products/{productId}` elimina la relación sucursal-producto.
 - `GET /api/franchises`, `GET /api/branches` y `GET /api/products` devuelven listas completas dentro de `StandardResponse`.
 - Swagger UI queda disponible en `/swagger-ui.html` cuando la aplicación está corriendo.
 
@@ -261,7 +265,53 @@ Response:
 }
 ```
 
-#### Actualizar stock
+#### Crear producto en catálogo
+
+Request:
+```json
+{
+  "name": "Jabon A"
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "Product created successfully",
+  "data": {
+    "id": 1,
+    "name": "Jabon A"
+  }
+}
+```
+
+#### Asignar producto a sucursal
+
+Request:
+```json
+{
+  "productId": 1,
+  "stock": 10
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "Product assigned successfully",
+  "data": {
+    "id": 1,
+    "branchId": 1,
+    "productId": 1,
+    "productName": "Jabon A",
+    "stock": 10
+  }
+}
+```
+
+#### Actualizar stock de sucursal
 
 Request:
 ```json
@@ -274,12 +324,13 @@ Response:
 ```json
 {
   "success": true,
-  "message": "Product stock updated successfully",
+  "message": "Branch product stock updated successfully",
   "data": {
     "id": 1,
-    "name": "Product 1",
-    "stock": 10,
-    "branchId": 1
+    "branchId": 1,
+    "productId": 1,
+    "productName": "Jabon A",
+    "stock": 10
   }
 }
 ```
@@ -326,11 +377,33 @@ El sistema está compuesto por las siguientes entidades:
 
 - Franchise (Franquicia)
 - Branch (Sucursal)
-- Product (Producto)
+- Product (catálogo de producto)
 
 Relaciones:
 - Una franquicia tiene muchas sucursales
-- Una sucursal tiene muchos productos
+- Una sucursal tiene muchos productos ofertados
+- La relación sucursal-producto se guarda en `branch_products`
+
+### Escenario de ejemplo
+
+Para una franquicia nacional como Éxito:
+
+- `Local 1`
+  - Jabón A: stock 10
+  - Detergente A: stock 5
+- `Local 2`
+  - Jabón A: stock 0
+  - Detergente A: stock 10
+
+En este escenario:
+
+- cada sucursal maneja su propio stock
+- el mismo producto puede existir en varias sucursales
+- la combinación sucursal + producto no se repite
+- la eliminación de un producto afecta solo su registro en `branch_products`
+- el top stock por sucursal devuelve:
+  - `Local 1 -> Jabón A (10)`
+  - `Local 2 -> Detergente A (10)`
 
 ## Cómo ejecutar en local
 

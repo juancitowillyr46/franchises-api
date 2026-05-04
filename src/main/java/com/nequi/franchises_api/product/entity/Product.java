@@ -1,41 +1,42 @@
 package com.nequi.franchises_api.product.entity;
 
-import com.nequi.franchises_api.branch.entity.Branch;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "products")
+@Table(
+        name = "products",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_products_name",
+                columnNames = {"name"}
+        )
+)
 public class Product {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(nullable = false)
-    private Integer stock;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "branch_id", nullable = false)
-    private Branch branch;
+    @OneToMany(mappedBy = "product")
+    private List<BranchProduct> branchProducts = new ArrayList<>();
 
     public Product() {
     }
 
-    public Product(String name, Integer stock, Branch branch) {
+    public Product(String name) {
         this.name = name;
-        this.stock = stock;
-        this.branch = branch;
     }
 
     public Long getId() {
@@ -46,19 +47,11 @@ public class Product {
         return name;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public Branch getBranch() {
-        return branch;
+    public List<BranchProduct> getBranchProducts() {
+        return branchProducts;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 }

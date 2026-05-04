@@ -1,53 +1,28 @@
 package com.nequi.franchises_api.product.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.nequi.franchises_api.product.dto.ProductResponse;
 import com.nequi.franchises_api.product.entity.Product;
-import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
+import com.nequi.franchises_api.product.dto.ProductResponse;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    boolean existsByNameIgnoreCase(String name);
+
+    Optional<Product> findByNameIgnoreCase(String name);
 
     @Query("""
             select new com.nequi.franchises_api.product.dto.ProductResponse(
                 p.id,
-                p.name,
-                p.stock,
-                p.branch.id
+                p.name
             )
             from Product p
             order by p.id asc
             """)
     List<ProductResponse> findAllSummaries();
-
-    @Query("""
-            select new com.nequi.franchises_api.franchise.dto.TopStockProductResponse(
-                p.id,
-                p.name,
-                p.stock,
-                b.id,
-                b.name
-            )
-            from Product p
-            join p.branch b
-            where b.franchise.id = :franchiseId
-              and p.stock = (
-                select max(p2.stock)
-                from Product p2
-                where p2.branch = b
-              )
-              and p.id = (
-                select min(p3.id)
-                from Product p3
-                where p3.branch = b
-                  and p3.stock = p.stock
-              )
-            order by b.id asc, p.id asc
-            """)
-    List<TopStockProductResponse> findTopStockProductsByFranchiseId(@Param("franchiseId") Long franchiseId);
 
 }

@@ -4,14 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class ProductStockUpdateRequest {
+public class BranchProductStockUpdateRequest {
 
     @Schema(description = "Stock value", example = "25")
     @NotNull(message = "Stock is required")
     @Min(value = 0, message = "Stock must be greater than or equal to 0")
     private Integer stock;
 
-    public ProductStockUpdateRequest() {
+    public BranchProductStockUpdateRequest() {
     }
 
     public Integer getStock() {
@@ -21,5 +21,4 @@ public class ProductStockUpdateRequest {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
-    
 }

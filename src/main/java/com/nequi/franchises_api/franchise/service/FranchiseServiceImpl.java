@@ -10,7 +10,7 @@ import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
 import com.nequi.franchises_api.franchise.entity.Franchise;
 import com.nequi.franchises_api.franchise.repository.FranchiseRepository;
 import com.nequi.franchises_api.franchise.mapper.FranchiseMapper;
-import com.nequi.franchises_api.product.repository.ProductRepository;
+import com.nequi.franchises_api.product.repository.BranchProductRepository;
 import com.nequi.franchises_api.shared.exception.ResourceNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class FranchiseServiceImpl implements FranchiseService {
 
     private final FranchiseRepository franchiseRepository;
-    private final ProductRepository productRepository;
+    private final BranchProductRepository branchProductRepository;
     private final FranchiseMapper franchiseMapper;
 
     public FranchiseServiceImpl(
         FranchiseRepository franchiseRepository,
-        ProductRepository productRepository,
+        BranchProductRepository branchProductRepository,
         FranchiseMapper franchiseMapper) {
         this.franchiseRepository = franchiseRepository;
-        this.productRepository = productRepository;
+        this.branchProductRepository = branchProductRepository;
         this.franchiseMapper = franchiseMapper;
     }
 
@@ -60,7 +60,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Override
     @Transactional(readOnly = true)
     public List<TopStockProductResponse> getTopStockProducts(Long franchiseId) {
-        return productRepository.findTopStockProductsByFranchiseId(franchiseId);
+        return branchProductRepository.findTopStockProductsByFranchiseId(franchiseId);
     }
 
 

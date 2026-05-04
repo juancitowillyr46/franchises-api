@@ -4,7 +4,7 @@ GET http://localhost:8081
 ## Franchises API
 
 ### List all franchises
-GET http://localhost:8081/api/franchises?page=0&size=10
+GET http://localhost:8081/api/franchises
 
 ### Create a new franchise
 POST http://localhost:8081/api/franchises
@@ -36,7 +36,7 @@ Content-Type: application/json
 ## Branches API
 
 ### List all branches
-GET http://localhost:8081/api/branches?page=0&size=10
+GET http://localhost:8081/api/branches
 
 ### Get a branch by ID
 GET http://localhost:8081/api/branches/2
@@ -49,19 +49,38 @@ Content-Type: application/json
     "name": "Branch updated"
 }
 
-### Create a new product in a branch
+### Create a branch product from an existing product
 POST http://localhost:8081/api/branches/2/products
 Content-Type: application/json
 
 {
-    "name": "Product 2",
+    "productId": 1,
     "stock": 2
 }
 
+### Update stock of a branch product
+PATCH http://localhost:8081/api/branches/2/products/1/stock
+Content-Type: application/json
+
+{
+    "stock": 10
+}
+
+### Delete a branch product
+DELETE http://localhost:8081/api/branches/2/products/1
+
 ## Products API
 
+### Create a new product in catalog
+POST http://localhost:8081/api/products
+Content-Type: application/json
+
+{
+    "name": "Product 2"
+}
+
 ### Get all products
-GET http://localhost:8081/api/products?page=0&size=10
+GET http://localhost:8081/api/products
 
 ### Get a product by ID
 GET http://localhost:8081/api/products/2
@@ -75,15 +94,7 @@ Content-Type: application/json
 }
 
 ### Delete a product
-DELETE http://localhost:8081/api/products/1 
-
-### Update stock of a product
-PATCH http://localhost:8081/api/products/3/stock
-Content-Type: application/json
-
-{
-    "stock": 10
-}
+DELETE http://localhost:8081/api/products/1
 
 ### Get top stock product by branch for a franchise
 GET http://localhost:8081/api/franchises/2/top-stock-products

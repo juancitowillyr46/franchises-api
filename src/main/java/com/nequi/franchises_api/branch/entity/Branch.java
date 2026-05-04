@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nequi.franchises_api.franchise.entity.Franchise;
-import com.nequi.franchises_api.product.entity.Product;
+import com.nequi.franchises_api.product.entity.BranchProduct;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Branch {
     private Franchise franchise;
 
     @OneToMany(mappedBy = "branch")
-    private List<Product> products = new ArrayList<>();
+    private List<BranchProduct> branchProducts = new ArrayList<>();
 
     public Branch() {
 
@@ -59,7 +59,7 @@ public class Branch {
         this.name = name;
     }
     
-    public List<Product> getProducts() {
-        return products;
+    public List<BranchProduct> getBranchProducts() {
+        return branchProducts;
     }
 }

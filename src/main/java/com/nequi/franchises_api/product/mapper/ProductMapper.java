@@ -11,9 +11,7 @@ public class ProductMapper {
     public ProductResponse toResponse(Product product) {
         return new ProductResponse(
                 product.getId(),
-                product.getName(),
-                product.getStock(),
-                product.getBranch().getId()
+                product.getName()
         );
     }
 }
