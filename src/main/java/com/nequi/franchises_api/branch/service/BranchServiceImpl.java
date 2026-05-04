@@ -1,7 +1,7 @@
 package com.nequi.franchises_api.branch.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.nequi.franchises_api.branch.dto.BranchCreateRequest;
@@ -38,8 +38,8 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Page<BranchResponse> findAll(Pageable pageable) {
-        return branchRepository.findAllSummaries(pageable);
+    public List<BranchResponse> findAll() {
+        return branchRepository.findAllSummaries();
     }
 
     @Override

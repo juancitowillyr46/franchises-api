@@ -1,7 +1,6 @@
 package com.nequi.franchises_api.product.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 import com.nequi.franchises_api.product.dto.ProductCreateRequest;
 import com.nequi.franchises_api.product.dto.ProductResponse;
@@ -12,7 +11,7 @@ public interface ProductService {
 
     ProductResponse create(Long branchId, ProductCreateRequest request);
 
-    Page<ProductResponse> findAll(Pageable pageable);
+    List<ProductResponse> findAll();
 
     ProductResponse findById(Long id);
 

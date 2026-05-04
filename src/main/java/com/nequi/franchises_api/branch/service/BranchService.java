@@ -1,7 +1,6 @@
 package com.nequi.franchises_api.branch.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 import com.nequi.franchises_api.branch.dto.BranchCreateRequest;
 import com.nequi.franchises_api.branch.dto.BranchResponse;
@@ -11,7 +10,7 @@ public interface BranchService {
 
     BranchResponse create(Long franchiseId, BranchCreateRequest request);
 
-    Page<BranchResponse> findAll(Pageable pageable);
+    List<BranchResponse> findAll();
 
     BranchResponse findById(Long id);
 

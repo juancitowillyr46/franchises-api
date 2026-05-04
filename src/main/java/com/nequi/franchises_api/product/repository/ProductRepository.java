@@ -2,8 +2,6 @@ package com.nequi.franchises_api.product.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,8 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 p.branch.id
             )
             from Product p
+            order by p.id asc
             """)
-    Page<ProductResponse> findAllSummaries(Pageable pageable);
+    List<ProductResponse> findAllSummaries();
 
     @Query("""
             select new com.nequi.franchises_api.franchise.dto.TopStockProductResponse(

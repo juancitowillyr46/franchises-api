@@ -91,7 +91,6 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
-- Paginación en listados
 
 #### Endpoints disponibles
 
@@ -103,7 +102,7 @@ Permite la administración básica de franquicias mediante operaciones CRUD.
 | GET | `/api/franchises/{id}` | Obtener franquicia por ID |
 | PUT | `/api/franchises/{id}` | Actualizar franquicia |
 
-> Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
+> Las respuestas exitosas se entregan con el wrapper estándar `StandardResponse`, con los campos `success`, `message` y `data`.
 
 #### Estructura interna del módulo
 
@@ -129,7 +128,6 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
-- Paginación en listados
 
 #### Endpoints disponibles
 
@@ -140,7 +138,7 @@ Permite la administración de sucursales asociadas a franquicias mediante operac
 | PUT | `/api/branches/{id}` | Actualizar sucursal |
 | POST | `/api/branches/{id}/products` | Crear producto dentro de una sucursal |
 
-> Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
+> Las respuestas exitosas se entregan con el wrapper estándar `StandardResponse`, con los campos `success`, `message` y `data`.
 
 #### Estructura interna del módulo
 
@@ -167,7 +165,6 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 - Validación de datos de entrada
 - Manejo centralizado de errores
 - Respuestas limpias mediante DTOs
-- Paginación en listados
 
 #### Endpoints disponibles
 
@@ -179,7 +176,7 @@ Permite la administración de productos asociados a sucursales, incluyendo gesti
 | PATCH | `/api/products/{id}/stock` | Actualizar stock |
 | DELETE | `/api/products/{id}` | Eliminar producto |
 
-> Los listados `GET` aceptan paginación con `page`, `size` y `sort` mediante `Pageable`.
+> Las respuestas exitosas se entregan con el wrapper estándar `StandardResponse`, con los campos `success`, `message` y `data`.
 
 #### Estructura interna del módulo
 
@@ -216,7 +213,7 @@ product/
 - `PUT /api/franchises/{id}`, `PUT /api/branches/{id}` y `PUT /api/products/{id}` actualizan el nombre.
 - `PATCH /api/products/{id}/stock` actualiza el stock con `{ "stock": 0 }`.
 - `DELETE /api/products/{id}` responde `204 No Content`.
-- `GET /api/franchises`, `GET /api/branches` y `GET /api/products` aceptan `page`, `size` y `sort`.
+- `GET /api/franchises`, `GET /api/branches` y `GET /api/products` devuelven listas completas dentro de `StandardResponse`.
 - Swagger UI queda disponible en `/swagger-ui.html` cuando la aplicación está corriendo.
 
 ### Ejemplos de intercambio
@@ -233,8 +230,12 @@ Request:
 Response:
 ```json
 {
-  "id": 1,
-  "name": "Franchise 1"
+  "success": true,
+  "message": "Franchise created successfully",
+  "data": {
+    "id": 1,
+    "name": "Franchise 1"
+  }
 }
 ```
 
@@ -250,9 +251,13 @@ Request:
 Response:
 ```json
 {
-  "id": 1,
-  "name": "Branch 1",
-  "franchiseId": 1
+  "success": true,
+  "message": "Branch created successfully",
+  "data": {
+    "id": 1,
+    "name": "Branch 1",
+    "franchiseId": 1
+  }
 }
 ```
 
@@ -268,10 +273,14 @@ Request:
 Response:
 ```json
 {
-  "id": 1,
-  "name": "Product 1",
-  "stock": 10,
-  "branchId": 1
+  "success": true,
+  "message": "Product stock updated successfully",
+  "data": {
+    "id": 1,
+    "name": "Product 1",
+    "stock": 10,
+    "branchId": 1
+  }
 }
 ```
 
@@ -333,7 +342,7 @@ Relaciones:
 ### Pasos
 
 1. Levantar MySQL con `docker compose up -d mysql`.
-2. ./mvnw spring-boot:run
+2. Ejecutar la app con `./mvnw spring-boot:run`.
 3. Abrir `http://localhost:8081/swagger-ui.html` para validar la API.
 
 ### Contenedorización
@@ -360,9 +369,22 @@ La aplicación usa perfiles de Spring Boot para separar la configuración local 
 
 - `application.yml`: configuración base común.
 - `application-local.yml`: configuración para desarrollo local.
+- `application-docker.yml`: configuración para ejecutar la API con Docker Compose.
 - `application-prod.yml`: configuración para despliegue en cloud.
 
 Por defecto se usa el perfil `local`.
+
+### Respuestas estándar
+
+Las respuestas exitosas usan el wrapper `StandardResponse` con esta forma general:
+
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": {}
+}
+```
 
 ### Variables de entorno para producción
 
@@ -381,7 +403,7 @@ SPRING_PROFILES_ACTIVE=prod
 
 ### Despliegue local
 
-1. Levantar MySQL con `docker compose up -d`.
+1. Levantar MySQL con `docker compose up -d mysql`.
 2. Ejecutar la app con `./mvnw spring-boot:run`.
 3. Abrir `http://localhost:8081/swagger-ui.html` para validar la API.
 

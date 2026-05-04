@@ -1,7 +1,7 @@
 package com.nequi.franchises_api.product.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.nequi.franchises_api.branch.entity.Branch;
@@ -45,8 +45,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> findAll(Pageable pageable) {
-        return productRepository.findAllSummaries(pageable);
+    public List<ProductResponse> findAll() {
+        return productRepository.findAllSummaries();
     }
 
     @Override

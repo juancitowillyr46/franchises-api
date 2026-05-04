@@ -1,7 +1,7 @@
 package com.nequi.franchises_api.branch.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +17,8 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
                 b.franchise.id
             )
             from Branch b
+            order by b.id asc
             """)
-    Page<BranchResponse> findAllSummaries(Pageable pageable);
+    List<BranchResponse> findAllSummaries();
 
 }

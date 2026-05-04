@@ -1,18 +1,15 @@
 package com.nequi.franchises_api.controller;
 
-import java.util.Map;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nequi.franchises_api.shared.response.StandardResponse;
 
 @RestController
 public class HomeController {
 
     @GetMapping("/")
-    public Map<String, String> home() {
-        return Map.of(
-            "message", 
-            "Franchises API is running"
-        );
+    public StandardResponse<String> home() {
+        return StandardResponse.success("Franchises API is running", "OK");
     }
 }

@@ -1,7 +1,7 @@
 package com.nequi.franchises_api.franchise.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,6 +16,7 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
                 f.name
             )
             from Franchise f
+            order by f.id asc
             """)
-    Page<FranchiseResponse> findAllSummaries(Pageable pageable);
+    List<FranchiseResponse> findAllSummaries();
 }

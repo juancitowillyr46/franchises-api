@@ -1,9 +1,5 @@
 package com.nequi.franchises_api.product.controller;
 
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,8 +14,11 @@ import com.nequi.franchises_api.product.dto.ProductResponse;
 import com.nequi.franchises_api.product.dto.ProductStockUpdateRequest;
 import com.nequi.franchises_api.product.dto.ProductUpdateRequest;
 import com.nequi.franchises_api.product.service.ProductService;
+import com.nequi.franchises_api.shared.response.StandardResponse;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,10 +41,10 @@ public class ProductController {
     @GetMapping
     @Operation(summary = "List products")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Paginated product list")
+            @ApiResponse(responseCode = "200", description = "Product list returned")
     })
-    public Page<ProductResponse> findAll(@ParameterObject @PageableDefault(size = 10) Pageable pageable) {
-        return productService.findAll(pageable);
+    public StandardResponse<List<ProductResponse>> findAll() {
+        return StandardResponse.success("Products retrieved successfully", productService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -54,8 +53,8 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product found"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
-    public ProductResponse findById(@PathVariable Long id) {
-        return productService.findById(id);
+    public StandardResponse<ProductResponse> findById(@PathVariable Long id) {
+        return StandardResponse.success("Product found successfully", productService.findById(id));
     }
 
     @PutMapping("/{id}")
@@ -65,10 +64,10 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid request body"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
-    public ProductResponse update(
+    public StandardResponse<ProductResponse> update(
             @PathVariable Long id, 
             @Valid @RequestBody ProductUpdateRequest request) {
-        return productService.update(id, request);
+        return StandardResponse.success("Product updated successfully", productService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
@@ -89,9 +88,9 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid request body"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
-    public ProductResponse updateStock(
+    public StandardResponse<ProductResponse> updateStock(
             @PathVariable Long id, 
             @Valid @RequestBody ProductStockUpdateRequest request) {
-        return productService.updateStock(id, request);
+        return StandardResponse.success("Product stock updated successfully", productService.updateStock(id, request));
     }
 }

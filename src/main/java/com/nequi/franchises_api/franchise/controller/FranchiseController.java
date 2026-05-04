@@ -1,8 +1,5 @@
 package com.nequi.franchises_api.franchise.controller;
 
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +17,11 @@ import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
 import com.nequi.franchises_api.franchise.dto.FranchiseResponse;
 import com.nequi.franchises_api.franchise.dto.TopStockProductResponse;
 import com.nequi.franchises_api.franchise.service.FranchiseService;
+import com.nequi.franchises_api.shared.response.StandardResponse;
 
 import jakarta.validation.Valid;
 
 import java.util.List;
-
-import org.springframework.data.domain.Pageable;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -56,10 +52,10 @@ public class FranchiseController {
             @ApiResponse(responseCode = "201", description = "Franchise created"),
             @ApiResponse(responseCode = "400", description = "Invalid request body")
     })
-    public FranchiseResponse create(
+    public StandardResponse<FranchiseResponse> create(
         @Valid @RequestBody FranchiseRequest request
     ) {
-        return franchiseService.create(request);
+        return StandardResponse.success("Franchise created successfully", franchiseService.create(request));
     }
 
     @PostMapping("/{id}/branches")
@@ -70,23 +66,21 @@ public class FranchiseController {
             @ApiResponse(responseCode = "400", description = "Invalid request body"),
             @ApiResponse(responseCode = "404", description = "Franchise not found")
     })
-    public BranchResponse createBranch(
+    public StandardResponse<BranchResponse> createBranch(
             @Parameter(description = "Franchise identifier")
             @PathVariable Long id,
             @Valid @RequestBody BranchCreateRequest request) {
-        return branchService.create(id, request);
+        return StandardResponse.success("Branch created successfully", branchService.create(id, request));
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "List franchises")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Paginated franchise list")
+            @ApiResponse(responseCode = "200", description = "Franchise list returned")
     })
-    public Page<FranchiseResponse> getAll(
-            @ParameterObject
-            @PageableDefault(size = 10) Pageable pageable) {
-        return franchiseService.findAll(pageable);
+    public StandardResponse<List<FranchiseResponse>> getAll() {
+        return StandardResponse.success("Franchises retrieved successfully", franchiseService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -96,8 +90,8 @@ public class FranchiseController {
             @ApiResponse(responseCode = "200", description = "Franchise found"),
             @ApiResponse(responseCode = "404", description = "Franchise not found")
     })
-    public FranchiseResponse findById(@PathVariable Long id) {
-        return franchiseService.findById(id);
+    public StandardResponse<FranchiseResponse> findById(@PathVariable Long id) {
+        return StandardResponse.success("Franchise found successfully", franchiseService.findById(id));
     }
     
     
@@ -109,10 +103,10 @@ public class FranchiseController {
             @ApiResponse(responseCode = "400", description = "Invalid request body"),
             @ApiResponse(responseCode = "404", description = "Franchise not found")
     })
-    public FranchiseResponse update(@PathVariable Long id, 
+    public StandardResponse<FranchiseResponse> update(@PathVariable Long id, 
         @Valid @RequestBody FranchiseRequest request
     ) {
-        return franchiseService.update(id, request);
+        return StandardResponse.success("Franchise updated successfully", franchiseService.update(id, request));
     }
     
     @GetMapping("/{id}/top-stock-products")
@@ -122,9 +116,9 @@ public class FranchiseController {
             @ApiResponse(responseCode = "200", description = "Top stock list returned"),
             @ApiResponse(responseCode = "404", description = "Franchise not found")
     })
-    public List<TopStockProductResponse> getTopStockProducts(
+    public StandardResponse<List<TopStockProductResponse>> getTopStockProducts(
             @PathVariable Long id) {
 
-        return franchiseService.getTopStockProducts(id);
+        return StandardResponse.success("Top stock list returned successfully", franchiseService.getTopStockProducts(id));
     }
 }

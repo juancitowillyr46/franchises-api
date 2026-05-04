@@ -2,8 +2,6 @@ package com.nequi.franchises_api.franchise.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nequi.franchises_api.franchise.dto.FranchiseRequest;
@@ -42,8 +40,8 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<FranchiseResponse> findAll(Pageable pageable) {
-        return franchiseRepository.findAllSummaries(pageable);
+    public List<FranchiseResponse> findAll() {
+        return franchiseRepository.findAllSummaries();
     }
 
     @Override
